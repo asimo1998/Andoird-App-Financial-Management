@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="planets_array">
+        <item>Phiếu thu</item>
+        <item>Phiếu chi</item>
+    </string-array>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/yellow1"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/textview_phanloai_themphanloai"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/textview_title"
+        android:gravity="center"
+        android:text="Thêm Mới Loại Thu Chi"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="normal"
+
+        />
+
+    <EditText
+        android:id="@+id/edittext_tenloai"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_border"
+        android:gravity="center"
+        android:hint="Tên loại thu chi"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:ellipsize="end"
+        android:maxLines="1"
+        />
+
+    <Spinner
+        android:id="@+id/spiner_phanloai"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_themmoi"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border"
+            android:text="Thêm Mới"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+
+        <Button
+            android:id="@+id/button_huy"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/border"
+            android:text="Hủy"
+            android:textColor="@color/white"
+            android:textSize="12dp" />
+    </LinearLayout>
+
+</LinearLayout>

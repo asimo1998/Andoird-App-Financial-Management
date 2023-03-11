@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_quanly_loai"
+            android:title="Quản lý loại thu chi" />
+        <item
+            android:id="@+id/nav_khoanthu"
+            android:title="khoản thu" />
+        <item
+            android:id="@+id/nav_khoanchi"
+            android:title="Khoản chi" />
+        <item
+            android:id="@+id/nav_thongke"
+            android:title="Thống kê" />
+    </group>
+    <item android:title="Communicate">
+        <menu>
+        </menu>
+    </item>
+</menu>
+
