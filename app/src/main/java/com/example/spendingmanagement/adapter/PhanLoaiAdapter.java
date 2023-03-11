@@ -3,8 +3,7 @@ package com.example.spendingmanagement.adapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +22,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spendingmanagement.R;
 import com.example.spendingmanagement.databaseaccessobject.PhanLoaiDAO;
-import com.example.spendingmanagement.databinding.PhanloaiAddBinding;
 import com.example.spendingmanagement.model.PhanLoai;
-import com.example.spendingmanagement.model.PhanLoaiActivity;
 
 import java.util.ArrayList;
 
-public class PhanLoaiAdapter extends RecyclerView.Adapter<PhanLoaiAdapter.PhanLoaiViewholder> {
+public class PhanLoaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     ArrayList<PhanLoai> list;
     PhanLoaiDAO phanLoaiDAO;
+
+    public static int TYPE_ITEM = 0;
+    public static int TYPE_TEST = 1;
 
     public PhanLoaiAdapter(Context context, ArrayList<PhanLoai> list) {
         this.context = context;
@@ -40,48 +40,74 @@ public class PhanLoaiAdapter extends RecyclerView.Adapter<PhanLoaiAdapter.PhanLo
         phanLoaiDAO = new PhanLoaiDAO(context);
     }
 
+    public void addItem(PhanLoai item) {
+        list.add(item);
+        notifyItemInserted(list.size() - 1);
+    }
+
+    public void removeItem(PhanLoai item) {
+        int index = 1;
+    }
+
+//    @NonNull
+//    @Override
+//    public PhanLoaiViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+//        View view = inflater.inflate(R.layout.phanloai_view_item, parent, false);
+//        PhanLoaiViewholder viewholder = new PhanLoaiViewholder(view);
+//        return viewholder;
+//    }
+
+
     @NonNull
     @Override
-    public PhanLoaiViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-        View view = inflater.inflate(R.layout.phanloai_view_item, parent, false);
-        PhanLoaiViewholder viewholder = new PhanLoaiViewholder(view);
-        return viewholder;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.phanloai_view_item, parent, false);
+            return new PhanLoaiViewholder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_test, parent, false);
+            return new TestViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhanLoaiViewholder holder, int position) {
-        PhanLoai phanLoai = list.get(position);
-        holder.tenLoai.setText(phanLoai.getTenLoai());
-        holder.trangThai.setText(phanLoai.getTrangThai());
-
-        holder.editText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openDialogUpdate(phanLoai);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof TestViewHolder) {
+            ((TestViewHolder) holder).binData();
+        } else {
+            PhanLoai phanLoai;
+            if (position > 2) {
+                phanLoai = list.get(position - 1);
+            } else {
+                phanLoai = list.get(position);
             }
-        });
-
-        holder.deleteText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (phanLoaiDAO.delete(phanLoai.getMaLoai())) {
-                    Toast.makeText(context, "Xoá thành công", Toast.LENGTH_LONG).show();
-                    //refresdata
-                    list.clear();
-                    list.addAll(phanLoaiDAO.getAll());
-                    notifyDataSetChanged();
-                } else {
-                    Toast.makeText(context, "Xóa không thành công, vui lòng kiểm tra lại",
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+            ((PhanLoaiViewholder) holder).bindData(phanLoai);
+        }
+        Log.e("onBindViewHolder" , position + "");
     }
+
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list.size() > 3) {
+            return list.size() + 1;
+        } else {
+            return list.size();
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (list.size() > 3) {
+            if (position == 2) {
+                return TYPE_TEST;
+            } else {
+                return TYPE_ITEM;
+            }
+        } else {
+            return TYPE_ITEM;
+        }
     }
 
     public class PhanLoaiViewholder extends RecyclerView.ViewHolder {
@@ -99,6 +125,45 @@ public class PhanLoaiAdapter extends RecyclerView.Adapter<PhanLoaiAdapter.PhanLo
             deleteText = itemView.findViewById(R.id.delete_text);
             cardViewPhanLoai = itemView.findViewById(R.id.cardview_phanloai);
         }
+
+        public void bindData(PhanLoai phanLoai) {
+            tenLoai.setText(phanLoai.getTenLoai());
+            trangThai.setText(phanLoai.getTrangThai());
+
+            editText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openDialogUpdate(phanLoai);
+                }
+            });
+
+            deleteText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (phanLoaiDAO.delete(phanLoai.getMaLoai())) {
+                        Toast.makeText(context, "Xoá thành công", Toast.LENGTH_LONG).show();
+                        //refresdata
+                        list.clear();
+                        list.addAll(phanLoaiDAO.getAll());
+                        notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(context, "Xóa không thành công, vui lòng kiểm tra lại",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+    public class TestViewHolder extends RecyclerView.ViewHolder {
+        public TestViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        public void binData() {
+
+        }
+
     }
 
     public void openDialogUpdate(PhanLoai phanLoai) {

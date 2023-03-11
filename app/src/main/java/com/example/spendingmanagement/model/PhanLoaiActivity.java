@@ -1,21 +1,17 @@
 package com.example.spendingmanagement.model;
 
+import android.app.Dialog;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Dialog;
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.spendingmanagement.R;
 import com.example.spendingmanagement.adapter.PhanLoaiAdapter;
@@ -34,8 +30,15 @@ public class PhanLoaiActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButtonPhanLoai;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("onStart" ,"onStart");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
+        Log.e("onCreate" ,"onCreate");
+//        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phan_loai);
@@ -57,6 +60,38 @@ public class PhanLoaiActivity extends AppCompatActivity {
             }
         });
 
+//        final Dao dao = AppDatabase.Companion.getAppDataBase().appDao();
+
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                dao.insert(new Item(99 , "Back"));
+//            }
+//        });
+//        thread.start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("onResume" ,"onResume");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("onStop" ,"onStop");
     }
 
     public void openDialogAdd() {

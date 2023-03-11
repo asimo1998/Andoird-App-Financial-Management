@@ -1,6 +1,9 @@
 package com.example.spendingmanagement;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +29,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.spendingmanagement.databinding.ActivityMainBinding;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -70,7 +77,6 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
                 replaceFragment(new ThuFragment());
                 currentFragment = FRAGMENT_KHOANTHU;
             }
-
         } else if (id == R.id.nav_khoanchi) {
 
         } else if (id == R.id.nav_thongke) {
@@ -92,7 +98,8 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
 
     private void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.nav_host_fragment_content_main, fragment);
+        fragmentTransaction.add(R.id.nav_host_fragment_content_main, fragment);
+        fragmentTransaction.addToBackStack(PhanLoaiFragment.class.getName());
         fragmentTransaction.commit();
     }
 }

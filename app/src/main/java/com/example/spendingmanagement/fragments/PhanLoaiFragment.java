@@ -20,7 +20,6 @@ import com.example.spendingmanagement.adapter.PhanLoaiAdapter;
 import com.example.spendingmanagement.databaseaccessobject.PhanLoaiDAO;
 import com.example.spendingmanagement.databinding.PhanloaiAddBinding;
 import com.example.spendingmanagement.model.PhanLoai;
-import com.example.spendingmanagement.model.PhanLoaiActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -63,6 +62,7 @@ public class PhanLoaiFragment extends Fragment {
             }
         });
     }
+
     private void openDialogAdd() {
         // khoi tao doi tuong dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -93,13 +93,14 @@ public class PhanLoaiFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String getName = viewBinding.edittextTenloai.getText().toString();
-                String getSelected = (String)viewBinding.spinerPhanloai.getSelectedItem();
+                String getSelected = (String) viewBinding.spinerPhanloai.getSelectedItem();
 
-                if (phanLoaiDAO.insert(getName, getSelected)){
+                if (phanLoaiDAO.insert(getName, getSelected)) {
                     Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_LONG).show();
                     dialog.dismiss();
 
-                    list.clear();;
+                    list.clear();
+                    ;
                     list.addAll(phanLoaiDAO.getAll());
                     phanLoaiAdapter.notifyDataSetChanged();
                 } else {
