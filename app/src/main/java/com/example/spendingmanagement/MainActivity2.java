@@ -71,8 +71,6 @@ public class MainActivity2 extends AppCompatActivity implements NavigationView.O
                 currentFragment = FRAGMENT_KHOANTHU;
             }
 
-        } else if (id == R.id.nav_khoanchi) {
-
         } else if (id == R.id.nav_thongke) {
 
         }
