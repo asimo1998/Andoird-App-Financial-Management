@@ -84,11 +84,12 @@ public class ThuFragment extends Fragment {
         builder.setView(view);
 
         Dialog dialog = builder.create();
+        dialog.setCancelable(false);
         dialog.show();
 
-        EditText editTextTieuDeGiaoDich = view.findViewById(R.id.textview_tieude_giaodich);
-        EditText editTextNgayThangGiaoDich = view.findViewById(R.id.textview_ngaythang_giaodich);
-        EditText editTextSoTienGiaoDich = view.findViewById(R.id.textview_tien_giaodich);
+        EditText editTextTieuDeGiaoDich = view.findViewById(R.id.edittext_tenloai);
+        EditText editTextNgayThangGiaoDich = view.findViewById(R.id.edittext_ngaythang);
+        EditText editTextSoTienGiaoDich = view.findViewById(R.id.edittext_sotien);
         EditText editTextMoTaGiaoDich = view.findViewById(R.id.edittext_mota_giaodich);
         Spinner spinnerLoaiThuChiGiaoDich = view.findViewById(R.id.spiner_loaithuchi);
         Button buttonThemMoiGiaoDich = view.findViewById(R.id.button_themmoi_giaodich);
@@ -107,9 +108,9 @@ public class ThuFragment extends Fragment {
                 try {
 
                     String tieuDe = editTextTieuDeGiaoDich.getText().toString();
-                    Date ngayThang = simpleDateFormat.parse(editTextNgayThangGiaoDich.getText().toString());
-                    double tien = Double.parseDouble(editTextSoTienGiaoDich.getText().toString());
-                    String moTaGiaoDich = editTextMoTaGiaoDich.getText().toString();
+                    Date ngayThang = simpleDateFormat.parse(editTextNgayThangGiaoDich.getEditableText().toString());
+                    double tien = Double.parseDouble(editTextSoTienGiaoDich.getEditableText().toString());
+                    String moTaGiaoDich = editTextMoTaGiaoDich.getEditableText().toString();
                     PhanLoai phanLoai = (PhanLoai) spinnerLoaiThuChiGiaoDich.getSelectedItem();
                     int maLoai = phanLoai.getMaLoai();
 

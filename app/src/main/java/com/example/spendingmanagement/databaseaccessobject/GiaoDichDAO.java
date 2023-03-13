@@ -86,13 +86,13 @@ public class GiaoDichDAO {
         SQLiteDatabase sqLiteDatabase = helperGiaoDich.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("TieuDe",giaoDich.getMaGD());
+        contentValues.put("TieuDe",giaoDich.getTieuDe());
         contentValues.put("Ngay", simpleDateFormat.format(giaoDich.getNgay()));
-        contentValues.put("Tien",giaoDich.getMaGD());
+        contentValues.put("Tien",giaoDich.getTien());
         contentValues.put("MoTa",giaoDich.getMaGD());
         contentValues.put("MaLoai",giaoDich.getMaGD());
 
-        long row = sqLiteDatabase.insert("PHANLOAI", null, contentValues);
+        long row = sqLiteDatabase.insert("GIAODICH", null, contentValues);
         boolean condition = row > 0;
 
         return condition;

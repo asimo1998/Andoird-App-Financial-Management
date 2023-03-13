@@ -27,6 +27,14 @@ public class GiaoDich {
         this.maLoai = maLoai;
     }
 
+    public GiaoDich(String tieuDe, Date ngay, double tien, String moTa) {
+        this.tieuDe = tieuDe;
+        this.ngay = ngay;
+        this.tien = tien;
+        this.moTa = moTa;
+    }
+
+
     public int getMaGD() {
         return maGD;
     }

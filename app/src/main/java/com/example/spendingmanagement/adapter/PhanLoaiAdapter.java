@@ -111,6 +111,7 @@ public class PhanLoaiAdapter extends RecyclerView.Adapter<PhanLoaiAdapter.PhanLo
         builder.setView(view);
 
         Dialog dialog = builder.create();
+        dialog.setCancelable(false);
         dialog.show();
 
         EditText editTextUpdate = view.findViewById(R.id.edittext_capnhat_tenloai);

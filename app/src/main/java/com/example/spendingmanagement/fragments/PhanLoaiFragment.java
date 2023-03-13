@@ -73,6 +73,7 @@ public class PhanLoaiFragment extends Fragment {
         builder.setView(view);
 
         Dialog dialog = builder.create();
+        dialog.setCancelable(false);
         dialog.show();
 
         //khoi tao phuong thuc thu chi
@@ -99,7 +100,7 @@ public class PhanLoaiFragment extends Fragment {
                     Toast.makeText(getContext(), "Thêm mới thành công", Toast.LENGTH_LONG).show();
                     dialog.dismiss();
 
-                    list.clear();;
+                    list.clear();
                     list.addAll(phanLoaiDAO.getAll());
                     phanLoaiAdapter.notifyDataSetChanged();
                 } else {

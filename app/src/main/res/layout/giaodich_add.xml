@@ -57,6 +57,7 @@
         android:background="@drawable/edittext_border"
         android:gravity="center"
         android:hint="Nhập số tiền"
+        android:inputType="number"
         android:textColorHint="@color/black1"
         android:textColor="@color/black"
         android:textSize="15dp"
