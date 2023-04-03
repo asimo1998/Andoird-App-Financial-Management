@@ -25,6 +25,7 @@ import com.example.spendingmanagement.databaseaccessobject.PhanLoaiDAO;
 import com.example.spendingmanagement.model.GiaoDich;
 import com.example.spendingmanagement.model.PhanLoai;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -38,8 +39,8 @@ public class GiaoDichAdapter extends RecyclerView.Adapter<GiaoDichAdapter.GiaoDi
     public GiaoDichAdapter(Context context, ArrayList<GiaoDich> list) {
         this.context = context;
         this.list = list;
-        phanLoaiDAO = new PhanLoaiDAO(context);
-        giaoDichDAO = new GiaoDichDAO(context);
+//        phanLoaiDAO = new PhanLoaiDAO(context);
+//        giaoDichDAO = new GiaoDichDAO(context);
     }
 
     @NonNull
@@ -64,7 +65,12 @@ public class GiaoDichAdapter extends RecyclerView.Adapter<GiaoDichAdapter.GiaoDi
         holder.ngayGiaoDich.setText(simpleDateFormat.format(giaoDich.getNgay()));
         holder.motaGiaoDich.setText(giaoDich.getMoTa());
 
-
+        holder.editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialogUpdate(giaoDich);
+            }
+        });
         holder.deleteText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,5 +112,83 @@ public class GiaoDichAdapter extends RecyclerView.Adapter<GiaoDichAdapter.GiaoDi
             deleteText = itemView.findViewById(R.id.delete_giaodich);
             cardViewGiaodich = itemView.findViewById(R.id.cardview_giaodich);
         }
+    }
+    public void openDialogUpdate(GiaoDich giaoDich) {
+        // khoi tao doi tuong dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        //nap giao dien
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        View view = inflater.inflate(R.layout.giaodich_update, null);
+        builder.setView(view);
+
+        Dialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.show();
+
+        EditText updateTieuDe = view.findViewById(R.id.edittext_capnhat_tenloai);
+        EditText updateNgayThang = view.findViewById(R.id.edittext_capnhat_ngaythang);
+        EditText updateSoTien = view.findViewById(R.id.edittext_capnhat_sotien);
+        EditText updateMoTa = view.findViewById(R.id.edittext_capnhat_mota_giaodich);
+
+        Button buttonUpdate = view.findViewById(R.id.button_capnhat_giaodich);
+        Button buttonCancel = view.findViewById(R.id.button_capnhat_huy_giaodich);
+        Spinner spinnerUpdate = view.findViewById(R.id.spiner_capnhat_loaithuchi);
+
+        //khoi tao phuong thuc thu chi
+//        String[] status = {"Thu", "Chi"};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(PhanLoaiActivity.this,
+//                android.R.layout.simple_spinner_item, status);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinnerThemMoi.setAdapter(adapter);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+                R.array.planets_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinnerUpdate.setAdapter(adapter);
+
+        //xet text
+        updateTieuDe.setText(giaoDich.getTieuDe());
+        updateNgayThang.setText(giaoDich.getNgay().toString());
+        updateSoTien.setText(giaoDich.getTien() + "");
+        updateMoTa.setText(giaoDich.getTieuDe());
+
+        for (int i = 0; i < 2; i++) {
+                spinnerUpdate.setSelection(i);
+        }
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                giaoDich.setMoTa(updateMoTa.getText().toString());
+                try {
+                    giaoDich.setNgay(simpleDateFormat.parse(updateNgayThang.getText().toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                giaoDich.setTien(Double.parseDouble(updateSoTien.getText().toString()));
+                giaoDich.setMoTa(updateMoTa.getText().toString());
+                giaoDich.setMaLoai( (int)spinnerUpdate.getSelectedItem());
+
+                if (giaoDichDAO.update(giaoDich)) {
+                    Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+
+                    list.clear();
+                    list.addAll(giaoDichDAO.getAll());
+                    notifyDataSetChanged();
+                } else {
+                    Toast.makeText(context, "Cập nhật thất bại mời bạn nhập lại", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 }

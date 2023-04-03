@@ -95,12 +95,18 @@ public class ThuFragment extends Fragment {
         Button buttonThemMoiGiaoDich = view.findViewById(R.id.button_themmoi_giaodich);
         Button buttonHuyGiaoDich = view.findViewById(R.id.button_huy_giaodich);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
+        String[] status = {"Thu", "Chi"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, status);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinnerLoaiThuChiGiaoDich.setAdapter(adapter);
+
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.planets_array, android.R.layout.simple_spinner_item);
+//        // Specify the layout to use when the list of choices appears
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        // Apply the adapter to the spinner
+//        spinnerLoaiThuChiGiaoDich.setAdapter(adapter);
 
         buttonThemMoiGiaoDich.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,9 +114,9 @@ public class ThuFragment extends Fragment {
                 try {
 
                     String tieuDe = editTextTieuDeGiaoDich.getText().toString();
-                    Date ngayThang = simpleDateFormat.parse(editTextNgayThangGiaoDich.getEditableText().toString());
-                    double tien = Double.parseDouble(editTextSoTienGiaoDich.getEditableText().toString());
-                    String moTaGiaoDich = editTextMoTaGiaoDich.getEditableText().toString();
+                    Date ngayThang = simpleDateFormat.parse(editTextNgayThangGiaoDich.getText().toString());
+                    double tien = Double.parseDouble(editTextSoTienGiaoDich.getText().toString());
+                    String moTaGiaoDich = editTextMoTaGiaoDich.getText().toString();
                     PhanLoai phanLoai = (PhanLoai) spinnerLoaiThuChiGiaoDich.getSelectedItem();
                     int maLoai = phanLoai.getMaLoai();
 
@@ -118,11 +124,12 @@ public class ThuFragment extends Fragment {
 
                     if (giaoDichDAO.insert(giaoDich)) {
                         Toast.makeText(getContext(), "Thêm mới giao dich thành công", Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-
                         list.clear();
                         list.addAll(giaoDichDAO.getAll());
                         giaoDichAdapter.notifyDataSetChanged();
+
+                        dialog.dismiss();
+
                     } else {
                         Toast.makeText(getContext(), "Thêm mới thất bại mời bạn nhập lại", Toast.LENGTH_SHORT).show();
                     }

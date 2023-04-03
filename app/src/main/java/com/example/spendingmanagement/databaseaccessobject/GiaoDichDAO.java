@@ -98,7 +98,20 @@ public class GiaoDichDAO {
         return condition;
     }
 
-    public void update() {
+    public boolean update(GiaoDich giaoDich) {
+        SQLiteDatabase sqLiteDatabase = helperGiaoDich.getReadableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("TieuDe", giaoDich.getTieuDe());
+        contentValues.put("Ngay", giaoDich.getNgay().toString());
+        contentValues.put("Tien", giaoDich.getTien());
+        contentValues.put("MoTa", giaoDich.getMoTa());
+
+        int row = sqLiteDatabase.update("GIAODICH", contentValues,
+                "MaLoai = ?",
+                new String[]{giaoDich.getMaLoai() + ""});
+
+        return (row > 0);
     }
 
     public boolean delete(int maLoai) {
